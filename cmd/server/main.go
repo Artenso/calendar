@@ -17,14 +17,8 @@ import (
 )
 
 const (
-	host       = "localhost"
-	dbPort     = "54321"
-	dbUser     = "postgres"
-	dbPassword = "postgres"
-	dbName     = "user_service_api"
-	sslMode    = "disable"
-	grpcPort   = ":50051"
-	httpPort   = ":8000"
+	grpcPort = ":50051"
+	httpPort = ":8000"
 )
 
 func main() {
