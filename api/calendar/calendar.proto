@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package github.com.Artenso.calendar.api.calendar;
+
+option go_package = "github.com/Artenso/calendar/pkg/calendar";
+
+import "google/protobuf/timestamp.proto";
+
+service Calendar {
+    rpc AddEvent(AddEventRequest) returns (AddEventResponse);
+    rpc GetEventByID(GetEventByIDRequest) returns (GetEventByIDResponse);
+
+}
+
+message AddEventRequest {
+    google.protobuf.Timestamp startTime = 1;
+    google.protobuf.Timestamp endTime = 2;
+    string description = 3; 
+}
+
+message AddEventResponse {
+    int64 id = 1;
+}
+
+message GetEventByIDRequest {
+    int64 id = 1;
+}
+
+message GetEventByIDResponse{
+    google.protobuf.Timestamp startTime = 1;
+    google.protobuf.Timestamp endTime = 2;
+    string description = 3; 
+}
