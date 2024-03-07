@@ -7,17 +7,18 @@ import (
 	"github.com/Artenso/calendar/internal/model"
 )
 
-func (s *storage) GetFromToEvents(_ context.Context, from time.Time, to time.Time) []model.Event {
+func (s *Storage) GetFromToEvents(_ context.Context, from time.Time, to time.Time) ([]*model.Event, error) {
 
-	events := make([]model.Event, 0, 10)
+	events := make([]*model.Event, 0, 10)
 	s.mu.RLock()
 	defer s.mu.RUnlock()
-	for _, event := range s.data {
-		if from.Compare(event.Info.EndDate) <= 0 &&
-			to.Compare(event.Info.StartDate) >= 0 {
-			events = append(events, event)
+	for _, storEvent := range s.data {
+		if from.Compare(storEvent.Info.EndDate) <= 0 &&
+			to.Compare(storEvent.Info.StartDate) >= 0 {
+			event := storEvent
+			events = append(events, &event)
 		}
 	}
-	return events
+	return events, nil
 
 }

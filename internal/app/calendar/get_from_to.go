@@ -9,16 +9,17 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-// AddEvent adds event to calendar
-func (i *Implementation) AddEvent(ctx context.Context, req *desc.AddEventRequest) (*desc.AddEventResponse, error) {
+// GetFromToEvent gets events from start date to end date
+func (i *Implementation) GetFromToEvents(ctx context.Context, req *desc.GetFromToEventsRequest) (*desc.GetFromToEventsResponse, error) {
 	if err := req.ValidateAll(); err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "invalid request: %s", err.Error())
 	}
 
-	event, err := i.calendarSrv.AddEvent(ctx, converter.ToEventInfo(req))
+	utcFrom, utcTo := converter.ToGetFromToEventsDates(req)
+	events, err := i.calendarSrv.GetFromToEvents(ctx, utcFrom, utcTo)
 	if err != nil {
 		return nil, err
 	}
 
-	return converter.ToAddEventResponse(event), nil
+	return converter.ToGetFromToEventsResponse(events), nil
 }

@@ -2,7 +2,7 @@ package storage
 
 import (
 	"context"
-	"fmt"
+	"database/sql"
 	"testing"
 	"time"
 
@@ -80,7 +80,7 @@ func TestStorage(t *testing.T) {
 		for _, test := range testTable {
 			t.Run(test.name, func(t *testing.T) {
 
-				event, err := storage.Add(ctx, test.eventInfo)
+				event, err := storage.Add(ctx, &test.eventInfo)
 
 				require.NoError(t, err)
 				require.Equal(t, &test.expectedData, event)
@@ -95,7 +95,7 @@ func TestStorage(t *testing.T) {
 			Description: "Sergey's Birthday",
 		}
 
-		event, err := storage.Add(ctx, info)
+		event, err := storage.Add(ctx, &info)
 
 		require.EqualError(t, model.ErrDateBusy, err.Error())
 		require.Equal(t, (*model.Event)(nil), event)
@@ -103,26 +103,43 @@ func TestStorage(t *testing.T) {
 
 	t.Run("OK_Edit", func(t *testing.T) {
 		id := int64(0)
-		info := model.EventInfo{
-			StartDate:   time.Date(2023, time.April, 15, 0, 0, 0, 0, time.UTC),
-			EndDate:     time.Date(2023, time.June, 15, 23, 59, 59, 0, time.UTC),
-			Description: "Sergey's Birthday",
+		info := &model.UpdateEventInfo{
+			StartDate: sql.NullTime{
+				Time:  time.Date(2023, time.April, 15, 0, 0, 0, 0, time.UTC),
+				Valid: true,
+			},
+			EndDate: sql.NullTime{
+				Time:  time.Date(2023, time.June, 15, 23, 59, 59, 0, time.UTC),
+				Valid: true,
+			},
+			Description: sql.NullString{
+				String: "Sergey's Birthday",
+				Valid:  true,
+			},
 		}
 
-		err := storage.Edit(ctx, id, info)
+		_, err := storage.Edit(ctx, id, info)
 		require.NoError(t, err)
 	})
 
 	t.Run("BAD_Edit", func(t *testing.T) {
 		id := int64(100)
-		info := model.EventInfo{
-			StartDate:   time.Date(2023, time.April, 15, 0, 0, 0, 0, time.UTC),
-			EndDate:     time.Date(2023, time.June, 15, 23, 59, 59, 0, time.UTC),
-			Description: "Sergey's Birthday",
+		info := &model.UpdateEventInfo{
+			StartDate: sql.NullTime{
+				Time:  time.Date(2023, time.April, 15, 0, 0, 0, 0, time.UTC),
+				Valid: true,
+			},
+			EndDate: sql.NullTime{
+				Time:  time.Date(2023, time.June, 15, 23, 59, 59, 0, time.UTC),
+				Valid: true,
+			},
+			Description: sql.NullString{
+				String: "Sergey's Birthday",
+				Valid:  true,
+			},
 		}
-
-		err := storage.Edit(ctx, id, info)
-		require.EqualError(t, fmt.Errorf("changing a non-existent event"), err.Error())
+		_, err := storage.Edit(ctx, id, info)
+		require.EqualError(t, model.ErrEventNotFound, err.Error())
 	})
 
 	t.Run("GetAll", func(t *testing.T) {
@@ -154,8 +171,9 @@ func TestStorage(t *testing.T) {
 			},
 		}
 
-		events := storage.GetAllEvents(ctx)
+		events, err := storage.GetAllEvents(ctx)
 
+		require.NoError(t, err)
 		require.ElementsMatch(t, expected, events)
 	})
 
@@ -182,7 +200,7 @@ func TestStorage(t *testing.T) {
 
 		event, err := storage.GetByID(ctx, id)
 
-		require.EqualError(t, fmt.Errorf("event not found"), err.Error())
+		require.EqualError(t, model.ErrEventNotFound, err.Error())
 		require.Equal(t, model.Event{}, event)
 	})
 
@@ -201,7 +219,7 @@ func TestStorage(t *testing.T) {
 
 		err := storage.Remove(ctx, id)
 
-		require.EqualError(t, fmt.Errorf("deleting a non-existent event"), err.Error())
+		require.EqualError(t, model.ErrEventNotFound, err.Error())
 	})
 
 	t.Run("GetFromTo", func(t *testing.T) {
@@ -259,8 +277,9 @@ func TestStorage(t *testing.T) {
 
 		for _, test := range testTable {
 			t.Run(test.name, func(t *testing.T) {
-				events := storage.GetFromToEvents(ctx, test.fromDate, test.toDate)
+				events, err := storage.GetFromToEvents(ctx, test.fromDate, test.toDate)
 
+				require.NoError(t, err)
 				require.ElementsMatch(t, test.expectedData, events)
 			})
 		}

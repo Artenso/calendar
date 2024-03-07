@@ -5,6 +5,7 @@
 //
 //	mockgen -source=storage.go -destination=mock/storage_mock.go
 //
+
 // Package mock_storage is a generated GoMock package.
 package mock_storage
 
@@ -17,31 +18,31 @@ import (
 	gomock "go.uber.org/mock/gomock"
 )
 
-// MockEventsStorage is a mock of EventsStorage interface.
-type MockEventsStorage struct {
+// MockIEventsStorage is a mock of IEventsStorage interface.
+type MockIEventsStorage struct {
 	ctrl     *gomock.Controller
-	recorder *MockEventsStorageMockRecorder
+	recorder *MockIEventsStorageMockRecorder
 }
 
-// MockEventsStorageMockRecorder is the mock recorder for MockEventsStorage.
-type MockEventsStorageMockRecorder struct {
-	mock *MockEventsStorage
+// MockIEventsStorageMockRecorder is the mock recorder for MockIEventsStorage.
+type MockIEventsStorageMockRecorder struct {
+	mock *MockIEventsStorage
 }
 
-// NewMockEventsStorage creates a new mock instance.
-func NewMockEventsStorage(ctrl *gomock.Controller) *MockEventsStorage {
-	mock := &MockEventsStorage{ctrl: ctrl}
-	mock.recorder = &MockEventsStorageMockRecorder{mock}
+// NewMockIEventsStorage creates a new mock instance.
+func NewMockIEventsStorage(ctrl *gomock.Controller) *MockIEventsStorage {
+	mock := &MockIEventsStorage{ctrl: ctrl}
+	mock.recorder = &MockIEventsStorageMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockEventsStorage) EXPECT() *MockEventsStorageMockRecorder {
+func (m *MockIEventsStorage) EXPECT() *MockIEventsStorageMockRecorder {
 	return m.recorder
 }
 
 // Add mocks base method.
-func (m *MockEventsStorage) Add(ctx context.Context, info model.EventInfo) (*model.Event, error) {
+func (m *MockIEventsStorage) Add(ctx context.Context, info *model.EventInfo) (*model.Event, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Add", ctx, info)
 	ret0, _ := ret[0].(*model.Event)
@@ -50,70 +51,73 @@ func (m *MockEventsStorage) Add(ctx context.Context, info model.EventInfo) (*mod
 }
 
 // Add indicates an expected call of Add.
-func (mr *MockEventsStorageMockRecorder) Add(ctx, info any) *gomock.Call {
+func (mr *MockIEventsStorageMockRecorder) Add(ctx, info any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Add", reflect.TypeOf((*MockEventsStorage)(nil).Add), ctx, info)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Add", reflect.TypeOf((*MockIEventsStorage)(nil).Add), ctx, info)
 }
 
 // Edit mocks base method.
-func (m *MockEventsStorage) Edit(ctx context.Context, eventID int64, info model.EventInfo) error {
+func (m *MockIEventsStorage) Edit(ctx context.Context, eventID int64, info *model.UpdateEventInfo) (*model.Event, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Edit", ctx, eventID, info)
-	ret0, _ := ret[0].(error)
-	return ret0
+	ret0, _ := ret[0].(*model.Event)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // Edit indicates an expected call of Edit.
-func (mr *MockEventsStorageMockRecorder) Edit(ctx, eventID, info any) *gomock.Call {
+func (mr *MockIEventsStorageMockRecorder) Edit(ctx, eventID, info any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Edit", reflect.TypeOf((*MockEventsStorage)(nil).Edit), ctx, eventID, info)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Edit", reflect.TypeOf((*MockIEventsStorage)(nil).Edit), ctx, eventID, info)
 }
 
 // GetAllEvents mocks base method.
-func (m *MockEventsStorage) GetAllEvents(ctx context.Context) []model.Event {
+func (m *MockIEventsStorage) GetAllEvents(ctx context.Context) ([]*model.Event, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetAllEvents", ctx)
-	ret0, _ := ret[0].([]model.Event)
-	return ret0
+	ret0, _ := ret[0].([]*model.Event)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // GetAllEvents indicates an expected call of GetAllEvents.
-func (mr *MockEventsStorageMockRecorder) GetAllEvents(ctx any) *gomock.Call {
+func (mr *MockIEventsStorageMockRecorder) GetAllEvents(ctx any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllEvents", reflect.TypeOf((*MockEventsStorage)(nil).GetAllEvents), ctx)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllEvents", reflect.TypeOf((*MockIEventsStorage)(nil).GetAllEvents), ctx)
 }
 
 // GetByID mocks base method.
-func (m *MockEventsStorage) GetByID(ctx context.Context, eventID int64) (*model.Event, error) {
+func (m *MockIEventsStorage) GetByID(ctx context.Context, eventID int64) (*model.Event, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetByID", ctx, eventID)
-	ret0, _ := ret[0].(model.Event)
+	ret0, _ := ret[0].(*model.Event)
 	ret1, _ := ret[1].(error)
-	return &ret0, ret1
+	return ret0, ret1
 }
 
 // GetByID indicates an expected call of GetByID.
-func (mr *MockEventsStorageMockRecorder) GetByID(ctx, eventID any) *gomock.Call {
+func (mr *MockIEventsStorageMockRecorder) GetByID(ctx, eventID any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByID", reflect.TypeOf((*MockEventsStorage)(nil).GetByID), ctx, eventID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByID", reflect.TypeOf((*MockIEventsStorage)(nil).GetByID), ctx, eventID)
 }
 
 // GetFromToEvents mocks base method.
-func (m *MockEventsStorage) GetFromToEvents(ctx context.Context, from, to time.Time) []model.Event {
+func (m *MockIEventsStorage) GetFromToEvents(ctx context.Context, from, to time.Time) ([]*model.Event, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetFromToEvents", ctx, from, to)
-	ret0, _ := ret[0].([]model.Event)
-	return ret0
+	ret0, _ := ret[0].([]*model.Event)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // GetFromToEvents indicates an expected call of GetFromToEvents.
-func (mr *MockEventsStorageMockRecorder) GetFromToEvents(ctx, from, to any) *gomock.Call {
+func (mr *MockIEventsStorageMockRecorder) GetFromToEvents(ctx, from, to any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFromToEvents", reflect.TypeOf((*MockEventsStorage)(nil).GetFromToEvents), ctx, from, to)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFromToEvents", reflect.TypeOf((*MockIEventsStorage)(nil).GetFromToEvents), ctx, from, to)
 }
 
 // Remove mocks base method.
-func (m *MockEventsStorage) Remove(ctx context.Context, eventID int64) error {
+func (m *MockIEventsStorage) Remove(ctx context.Context, eventID int64) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Remove", ctx, eventID)
 	ret0, _ := ret[0].(error)
@@ -121,7 +125,7 @@ func (m *MockEventsStorage) Remove(ctx context.Context, eventID int64) error {
 }
 
 // Remove indicates an expected call of Remove.
-func (mr *MockEventsStorageMockRecorder) Remove(ctx, eventID any) *gomock.Call {
+func (mr *MockIEventsStorageMockRecorder) Remove(ctx, eventID any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Remove", reflect.TypeOf((*MockEventsStorage)(nil).Remove), ctx, eventID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Remove", reflect.TypeOf((*MockIEventsStorage)(nil).Remove), ctx, eventID)
 }

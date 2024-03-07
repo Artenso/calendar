@@ -1,6 +1,9 @@
 package model
 
-import "time"
+import (
+	"database/sql"
+	"time"
+)
 
 type EventInfo struct {
 	StartDate   time.Time
@@ -8,7 +11,15 @@ type EventInfo struct {
 	Description string
 }
 
+type UpdateEventInfo struct {
+	StartDate   sql.NullTime
+	EndDate     sql.NullTime
+	Description sql.NullString
+}
+
 type Event struct {
-	ID   int64
-	Info EventInfo
+	ID        int64
+	Info      EventInfo
+	CreatedAt sql.NullTime
+	UpdatedAt sql.NullTime
 }

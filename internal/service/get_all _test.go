@@ -15,7 +15,7 @@ func TestGetAll(t *testing.T) {
 
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-	storage := storageMock.NewMockEventsStorage(ctrl)
+	storage := storageMock.NewMockIEventsStorage(ctrl)
 
 	t.Run("OK case", func(t *testing.T) {
 		ctx := context.Background()
@@ -50,8 +50,9 @@ func TestGetAll(t *testing.T) {
 		storage.EXPECT().GetAllEvents(ctx).Return(mockEvents)
 		service := NewService(storage)
 
-		events := service.GetAllEvents(ctx)
+		events, err := service.GetAllEvents(ctx)
 
+		require.NoError(t, err)
 		require.ElementsMatch(t, mockEvents, events)
 	})
 }

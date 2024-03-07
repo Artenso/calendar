@@ -16,7 +16,7 @@ func TestGetByID(t *testing.T) {
 
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-	storage := storageMock.NewMockEventsStorage(ctrl)
+	storage := storageMock.NewMockIEventsStorage(ctrl)
 
 	t.Run("OK case", func(t *testing.T) {
 		ctx := context.Background()

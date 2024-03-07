@@ -1,8 +1,11 @@
 .PHONY: generate
 generate:
 	mkdir -p pkg/calendar
-	protoc --go_out=pkg/calendar --go-grpc_out=pkg/calendar \
+	protoc --proto_path vendor.protogen --proto_path api/calendar \
+	--go_out=pkg/calendar --go-grpc_out=pkg/calendar \
 	--grpc-gateway_out=pkg/calendar --grpc-gateway_opt=logtostderr=true --grpc-gateway_opt generate_unbound_methods=true \
+	--validate_out lang=go:pkg/calendar \
+	--experimental_allow_proto3_optional \
 	api/calendar/calendar.proto
 
 .PHONY: vendor-proto
