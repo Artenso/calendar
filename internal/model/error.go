@@ -5,5 +5,6 @@ import (
 )
 
 var (
-	ErrDateBusy = errors.New("the date is busy with another event")
+	ErrDateBusy      = errors.New("the date is busy with another event")
+	ErrEventNotFound = errors.New("event not found")
 )

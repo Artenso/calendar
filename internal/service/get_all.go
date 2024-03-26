@@ -6,6 +6,7 @@ import (
 	"github.com/Artenso/calendar/internal/model"
 )
 
-func (s *service) GetAllEvents(ctx context.Context) []model.Event {
+// GetAllEvents gets events from start date to end date
+func (s *Service) GetAllEvents(ctx context.Context) ([]*model.Event, error) {
 	return s.eventsStorage.GetAllEvents(ctx)
 }

@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/Artenso/calendar/internal/model"
-	storageMock "github.com/Artenso/calendar/internal/storage/mock"
+	storageMock "github.com/Artenso/calendar/internal/storage/calendar/mock"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/mock/gomock"
 )
@@ -15,7 +15,7 @@ func TestGetFromTo(t *testing.T) {
 
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-	storage := storageMock.NewMockEventsStorage(ctrl)
+	storage := storageMock.NewMockIEventsStorage(ctrl)
 
 	t.Run("OK case", func(t *testing.T) {
 

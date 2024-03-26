@@ -11,12 +11,6 @@ type EventInfo struct {
 	Description string
 }
 
-type UpdateEventInfo struct {
-	StartDate   sql.NullTime
-	EndDate     sql.NullTime
-	Description sql.NullString
-}
-
 type Event struct {
 	ID        int64
 	Info      EventInfo
