@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/Artenso/calendar/internal/model"
-	"github.com/Artenso/calendar/internal/storage"
+	storage "github.com/Artenso/calendar/internal/storage/calendar"
 )
 
 type IEventsService interface {
@@ -13,7 +13,7 @@ type IEventsService interface {
 	RemoveEvent(ctx context.Context, eventID int64) error
 	EditEvent(ctx context.Context, eventID int64, info *model.UpdateEventInfo) (*model.Event, error)
 	GetAllEvents(ctx context.Context) ([]*model.EventInfo, error)
-	GetFromToEvents(ctx context.Context, from, to time.Timer) ([]*model.Event, error)
+	GetFromToEvents(ctx context.Context, from, to time.Time) ([]*model.Event, error)
 	GetEventByID(ctx context.Context, eventID int64) (*model.Event, error)
 }
 

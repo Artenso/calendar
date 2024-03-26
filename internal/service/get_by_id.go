@@ -6,7 +6,7 @@ import (
 	"github.com/Artenso/calendar/internal/model"
 )
 
-// GetEventByID implements calendar.ICalendarService.
+// GetEventByID gets event from calendar by ID
 func (s *Service) GetEventByID(ctx context.Context, eventID int64) (*model.Event, error) {
 
 	event, err := s.eventsStorage.GetByID(ctx, eventID)

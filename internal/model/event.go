@@ -20,6 +20,6 @@ type UpdateEventInfo struct {
 type Event struct {
 	ID        int64
 	Info      EventInfo
-	CreatedAt sql.NullTime
+	CreatedAt time.Time
 	UpdatedAt sql.NullTime
 }

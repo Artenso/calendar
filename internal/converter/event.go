@@ -40,7 +40,7 @@ func toDescEvent(event *model.Event) *desc.Event {
 		StartDate:   timestamppb.New(event.Info.StartDate),
 		EndDate:     timestamppb.New(event.Info.EndDate),
 		Description: event.Info.Description,
-		CreatedAt:   timestamppb.New(event.CreatedAt.Time),
+		CreatedAt:   timestamppb.New(event.CreatedAt),
 	}
 	if event.UpdatedAt.Valid {
 		descEvent.UpdatedAt = timestamppb.New(event.UpdatedAt.Time)

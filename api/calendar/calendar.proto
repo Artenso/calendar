@@ -14,7 +14,7 @@ service Calendar {
     rpc GetEventByID (GetEventByIDRequest) returns (GetEventByIDResponse);
     rpc RemoveEvent (RemoveEventRequest) returns (google.protobuf.Empty);
     rpc GetFromToEvents (GetFromToEventsRequest) returns (GetFromToEventsResponse);
-    rpc GetAllEvents (GetAllEventsRequest) returns (GetAllEventsResponse);
+    rpc GetAllEvents (google.protobuf.Empty) returns (GetAllEventsResponse);
     rpc EditEvent (EditEventRequest) returns (EditEventResponse);
 }
 
@@ -56,10 +56,6 @@ message GetFromToEventsRequest {
 
 message GetFromToEventsResponse {
     repeated Event eventsList = 1;
-}
-
-message GetAllEventsRequest{
-
 }
 
 message GetAllEventsResponse{

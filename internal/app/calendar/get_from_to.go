@@ -16,6 +16,13 @@ func (i *Implementation) GetFromToEvents(ctx context.Context, req *desc.GetFromT
 	}
 
 	utcFrom, utcTo := converter.ToGetFromToEventsDates(req)
+	if utcFrom.After(utcTo) {
+		return nil, status.Errorf(
+			codes.InvalidArgument, "invalid request: %s",
+			"wrong from/to format, 'to' must be later than 'from'",
+		)
+	}
+
 	events, err := i.calendarSrv.GetFromToEvents(ctx, utcFrom, utcTo)
 	if err != nil {
 		return nil, err

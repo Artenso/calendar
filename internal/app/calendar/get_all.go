@@ -5,15 +5,11 @@ import (
 
 	"github.com/Artenso/calendar/internal/converter"
 	desc "github.com/Artenso/calendar/pkg/calendar/github.com/Artenso/calendar/pkg/calendar"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 // GetAllEvents gets events from start date to end date
-func (i *Implementation) GetAllEvents(ctx context.Context, req *desc.GetAllEventsRequest) (*desc.GetAllEventsResponse, error) {
-	if err := req.ValidateAll(); err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "invalid request: %s", err.Error())
-	}
+func (i *Implementation) GetAllEvents(ctx context.Context, _ *emptypb.Empty) (*desc.GetAllEventsResponse, error) {
 
 	events, err := i.calendarSrv.GetAllEvents(ctx)
 	if err != nil {

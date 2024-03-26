@@ -7,7 +7,7 @@ import (
 	"github.com/Artenso/calendar/internal/model"
 )
 
-// AddEvent implements calendar.ICalendarService.
+// AddEvent adds event to calendar
 func (s *Service) AddEvent(ctx context.Context, info *model.EventInfo) (*model.Event, error) {
 
 	if info.StartDate.After(info.EndDate) {

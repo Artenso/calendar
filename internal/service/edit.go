@@ -7,7 +7,7 @@ import (
 	"github.com/Artenso/calendar/internal/model"
 )
 
-// EditEvent implements calendar.ICalendarService.
+// EditEvent changes event in calendar
 func (s *Service) EditEvent(ctx context.Context, id int64, info *model.UpdateEventInfo) (*model.Event, error) {
 
 	if info.StartDate.Valid && info.EndDate.Valid {

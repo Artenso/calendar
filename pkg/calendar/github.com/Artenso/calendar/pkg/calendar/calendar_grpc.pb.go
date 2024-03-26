@@ -36,7 +36,7 @@ type CalendarClient interface {
 	GetEventByID(ctx context.Context, in *GetEventByIDRequest, opts ...grpc.CallOption) (*GetEventByIDResponse, error)
 	RemoveEvent(ctx context.Context, in *RemoveEventRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	GetFromToEvents(ctx context.Context, in *GetFromToEventsRequest, opts ...grpc.CallOption) (*GetFromToEventsResponse, error)
-	GetAllEvents(ctx context.Context, in *GetAllEventsRequest, opts ...grpc.CallOption) (*GetAllEventsResponse, error)
+	GetAllEvents(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetAllEventsResponse, error)
 	EditEvent(ctx context.Context, in *EditEventRequest, opts ...grpc.CallOption) (*EditEventResponse, error)
 }
 
@@ -84,7 +84,7 @@ func (c *calendarClient) GetFromToEvents(ctx context.Context, in *GetFromToEvent
 	return out, nil
 }
 
-func (c *calendarClient) GetAllEvents(ctx context.Context, in *GetAllEventsRequest, opts ...grpc.CallOption) (*GetAllEventsResponse, error) {
+func (c *calendarClient) GetAllEvents(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetAllEventsResponse, error) {
 	out := new(GetAllEventsResponse)
 	err := c.cc.Invoke(ctx, Calendar_GetAllEvents_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -110,7 +110,7 @@ type CalendarServer interface {
 	GetEventByID(context.Context, *GetEventByIDRequest) (*GetEventByIDResponse, error)
 	RemoveEvent(context.Context, *RemoveEventRequest) (*emptypb.Empty, error)
 	GetFromToEvents(context.Context, *GetFromToEventsRequest) (*GetFromToEventsResponse, error)
-	GetAllEvents(context.Context, *GetAllEventsRequest) (*GetAllEventsResponse, error)
+	GetAllEvents(context.Context, *emptypb.Empty) (*GetAllEventsResponse, error)
 	EditEvent(context.Context, *EditEventRequest) (*EditEventResponse, error)
 	mustEmbedUnimplementedCalendarServer()
 }
@@ -131,7 +131,7 @@ func (UnimplementedCalendarServer) RemoveEvent(context.Context, *RemoveEventRequ
 func (UnimplementedCalendarServer) GetFromToEvents(context.Context, *GetFromToEventsRequest) (*GetFromToEventsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetFromToEvents not implemented")
 }
-func (UnimplementedCalendarServer) GetAllEvents(context.Context, *GetAllEventsRequest) (*GetAllEventsResponse, error) {
+func (UnimplementedCalendarServer) GetAllEvents(context.Context, *emptypb.Empty) (*GetAllEventsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAllEvents not implemented")
 }
 func (UnimplementedCalendarServer) EditEvent(context.Context, *EditEventRequest) (*EditEventResponse, error) {
@@ -223,7 +223,7 @@ func _Calendar_GetFromToEvents_Handler(srv interface{}, ctx context.Context, dec
 }
 
 func _Calendar_GetAllEvents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetAllEventsRequest)
+	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -235,7 +235,7 @@ func _Calendar_GetAllEvents_Handler(srv interface{}, ctx context.Context, dec fu
 		FullMethod: Calendar_GetAllEvents_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CalendarServer).GetAllEvents(ctx, req.(*GetAllEventsRequest))
+		return srv.(CalendarServer).GetAllEvents(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }

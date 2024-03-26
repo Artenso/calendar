@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	storageMock "github.com/Artenso/calendar/internal/storage/mock"
+	storageMock "github.com/Artenso/calendar/internal/storage/calendar/mock"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/mock/gomock"
 )

@@ -4,10 +4,9 @@ import (
 	"context"
 )
 
-// RemoveEvent implements calendar.ICalendarService.
+// Remove deletes event from calendar
 func (s *Service) RemoveEvent(ctx context.Context, eventID int64) error {
-	err := s.eventsStorage.Remove(ctx, eventID)
-	if err != nil {
+	if err := s.eventsStorage.Remove(ctx, eventID); err != nil {
 		return err
 	}
 	return nil
